@@ -57,7 +57,7 @@ namespace UnityEngine
 
         /// <summary>
         /// This is basically a type cast for lists and arrays.
-        /// It returns a copy of the list as type List<T>, whatever T might be.
+        /// It returns a copy of the list as type List{T}, whatever T might be.
         /// If one of the elements of the original list can't be cast to T, it throws
         /// an exception.
         /// </summary>
