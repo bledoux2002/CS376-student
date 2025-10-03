@@ -190,28 +190,28 @@ namespace UnityEngine
             switch (o)
             {
                 case null:
-                    throw new NotImplementedException("Fill me in");
+                    Write("null");
                     break;
 
                 case int i:
-                    throw new NotImplementedException("Fill me in");
+                    Write(i);
                     break;
 
                 case float f:
-                    throw new NotImplementedException("Fill me in");
+                    Write(f);
                     break;
 
-                // Not: don't worry about handling strings that contain quote marks
+                // Note: don't worry about handling strings that contain quote marks
                 case string s:
-                    throw new NotImplementedException("Fill me in");
+                    Write("\"" + s + "\"");
                     break;
 
                 case bool b:
-                    throw new NotImplementedException("Fill me in");
+                    Write(b);
                     break;
 
                 case IList list:
-                    throw new NotImplementedException("Fill me in");
+                    WriteList(list);
                     break;
 
                 default:
