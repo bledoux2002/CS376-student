@@ -231,7 +231,24 @@ namespace UnityEngine
         /// <param name="o">Object to serialize</param>
         private void WriteComplexObject(object o)
         {
-            throw new NotImplementedException("Fill me in");
+            var (id, isNew) = GetId(o);
+            Write("#" + id);
+            if (!isNew) return;
+
+            WriteBracketedExpression("{", () =>
+            {
+                WriteField("type", o.GetType().Name, true);
+
+                var fields = Utilities.SerializedFields(o);
+                foreach (var kv in fields)
+                {
+                    if (kv.Key == "type")
+                        continue;
+                    WriteField(kv.Key, kv.Value, false);
+                }
+
+            },
+                "}");
         }
     }
 }
