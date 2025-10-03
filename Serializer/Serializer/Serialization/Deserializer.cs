@@ -284,6 +284,7 @@ namespace UnityEngine
             SkipWhitespace();
 
             // You've got the id # of the object.  Are we done now?
+                // If it's in the idTable already, yes.
             if (idTable.ContainsKey(id))
             {
                 return idTable[id];
@@ -309,6 +310,7 @@ namespace UnityEngine
                     $"Expected a type name (a string) in 'type: ...' expression for object id {id}, but instead got {typeName}");
 
             // Great!  Now what?
+                // Create object and add to idTable
             var o = Utilities.MakeInstance(type);
             idTable[id] = o;
 
@@ -317,6 +319,7 @@ namespace UnityEngine
             {
                 var (field, value) = ReadField(id);
                 // We've got a field and a value.  Now what?.
+                    // Create and populate fields in object
                 Utilities.SetFieldByName(o, field, value);
             }
 
@@ -326,6 +329,7 @@ namespace UnityEngine
             GetChar();  // Swallow close bracket
 
             // We're done.  Now what?
+                // GIMME THE OBJECT
             return o;
         }
 
