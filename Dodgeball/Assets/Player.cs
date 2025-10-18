@@ -51,7 +51,11 @@ public class Player : MonoBehaviour
     /// </summary>
     void MaybeFire()
     {
-        // TODO
+        // Fire orb if input button pressed
+        if (Input.GetButton("Fire1"))
+        {
+            FireOrb();
+        }
     }
 
     /// <summary>
@@ -61,7 +65,12 @@ public class Player : MonoBehaviour
     /// </summary>
     private void FireOrb()
     {
-        // TODO
+        // Create new orb 
+        var orb = Instantiate(OrbPrefab, transform.position + transform.right, Quaternion.identity);
+        
+        // Set velocity of orb
+        var orbRB = orb.GetComponent<Rigidbody2D>();
+        orbRB.linearVelocity = OrbVelocity * transform.right;
     }
 
     /// <summary>
