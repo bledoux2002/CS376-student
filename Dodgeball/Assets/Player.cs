@@ -25,6 +25,14 @@ public class Player : MonoBehaviour
     /// How fast we should shoot our orbs
     /// </summary>
     public float OrbVelocity = 10;
+    
+    // Rigidbody
+    private Rigidbody2D RB;
+
+    void Start()
+    {
+        RB = GetComponent<Rigidbody2D>();
+    }
 
     /// <summary>
     /// Handle moving and firing.
@@ -64,7 +72,16 @@ public class Player : MonoBehaviour
     /// </summary>
     void Manoeuvre()
     {
-        // TODO
+        // Move around
+        float horizontalAxis = Input.GetAxis("Horizontal");
+        float verticalAxis = Input.GetAxis("Vertical");
+        var direction = new Vector2(horizontalAxis, verticalAxis);
+        direction *= EnginePower;
+        RB.AddForce(direction);
+        
+        // Aim
+        float rotateAmount = Input.GetAxis("Rotate") * RotateSpeed;
+        RB.angularVelocity = rotateAmount;
     }
 
     /// <summary>
