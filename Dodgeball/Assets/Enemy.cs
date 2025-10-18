@@ -74,7 +74,12 @@ public class Enemy : MonoBehaviour
     // ReSharper disable once UnusedMember.Local
     void Update()
     {
-        // TODO
+        // Call Fire() after cooldown
+        if (Time.time >= CoolDownTime)
+        {
+            CoolDownTime = Time.time + 1.0f;
+            Fire();
+        }
     }
 
     /// <summary>
@@ -83,7 +88,11 @@ public class Enemy : MonoBehaviour
     /// </summary>
     private void Fire()
     {
-        // TODO
+        // Shoot orb at player
+        var orb = Instantiate(OrbPrefab, transform.position + new Vector3(HeadingToPlayer.x, HeadingToPlayer.y, 0), Quaternion.identity);
+        var orbRB = orb.GetComponent<Rigidbody2D>();
+        orbRB.mass = OrbMass;
+        orbRB.linearVelocity = OrbVelocity * HeadingToPlayer;
     }
 
     /// <summary>

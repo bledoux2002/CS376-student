@@ -26,6 +26,8 @@ public class Player : MonoBehaviour
     /// </summary>
     public float OrbVelocity = 10;
     
+    private float CoolDownTime = 0.0f;
+    
     // Rigidbody
     private Rigidbody2D RB;
 
@@ -52,8 +54,9 @@ public class Player : MonoBehaviour
     void MaybeFire()
     {
         // Fire orb if input button pressed
-        if (Input.GetButton("Fire1"))
+        if (Input.GetButton("Fire1") && Time.time >= CoolDownTime)
         {
+            CoolDownTime = Time.time + 0.1f;
             FireOrb();
         }
     }
