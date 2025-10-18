@@ -50,6 +50,8 @@ public class ScoreKeeper : MonoBehaviour
     /// <param name="delta"></param>
     private void ScorePointsInternal(int delta)
     {
-        // TODO
+        // Increment score
+        Score += delta;
+        scoreDisplay.text = Score.ToString();
     }
 }
