@@ -76,11 +76,11 @@ public class ProjectileThrower : MonoBehaviour {
         {
             if (IsActive(rb))
             {
-                return false;
+                return true;
             }
         }
 
-        return true;
+        return false;
     }
 
     /// <summary>
@@ -98,6 +98,7 @@ public class ProjectileThrower : MonoBehaviour {
 
         if ((firingState == FiringState.Firing && !WaitingForPhysicsToSettle()) || Input.GetKeyDown(KeyCode.Escape))
         {
+            Debug.Log("Reset");
             ResetForFiring();
         }
     }

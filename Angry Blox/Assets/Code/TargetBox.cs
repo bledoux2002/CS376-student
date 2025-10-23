@@ -1,4 +1,5 @@
 ﻿using UnityEngine;
+using UnityEngine.SocialPlatforms.Impl;
 
 public class TargetBox : MonoBehaviour
 {
@@ -19,11 +20,18 @@ public class TargetBox : MonoBehaviour
 
     private void Scored()
     {
-        // FILL ME IN
+        if (gameObject.GetComponent<SpriteRenderer>().color != Color.green)
+        {
+            gameObject.GetComponent<SpriteRenderer>().color = Color.green;
+            ScoreKeeper.AddToScore(gameObject.GetComponent<Rigidbody2D>().mass);
+        }
     }
     
     public void OnCollisionEnter2D(Collision2D collision)
     {
-        // Fill me in
+        if (collision.collider.gameObject.tag == "Ground")
+        {
+            Scored();
+        }
     }
 }
