@@ -15,6 +15,11 @@ public class Player : MonoBehaviour
     /// How fast our engines can accelerate us
     /// </summary>
     public float EnginePower = 1;
+
+    /// <summary>
+    /// rigidbody component
+    /// </summary>
+    public Rigidbody2D RigidBody;
     
     /// <summary>
     /// How fast we turn in place
@@ -25,17 +30,20 @@ public class Player : MonoBehaviour
     /// How fast we should shoot our orbs
     /// </summary>
     public float OrbVelocity = 10;
-    
-    private float CoolDownTime = 0.0f;
-    
-    // Rigidbody
-    private Rigidbody2D RB;
 
+    /// <summary>
+    /// Keep track of calls to MaybeFire
+    /// </summary>
+    public int fire = 0;
+
+    /// <summary>
+    /// Start method to initialize rigidbody
+    /// </summary>
     void Start()
     {
-        RB = GetComponent<Rigidbody2D>();
+        RigidBody =  GetComponent<Rigidbody2D>();
     }
-
+    
     /// <summary>
     /// Handle moving and firing.
     /// Called by Uniity every 1/50th of a second, regardless of the graphics card's frame rate
@@ -54,11 +62,15 @@ public class Player : MonoBehaviour
     /// </summary>
     void MaybeFire()
     {
-        // Fire orb if input button pressed
-        if (Input.GetButton("Fire1") && Time.time >= CoolDownTime)
+        // TODO
+        if (Input.GetAxis("Fire") > 0)
         {
-            CoolDownTime = Time.time + 0.1f;
-            FireOrb();
+            if (fire % 2 == 0)
+            {
+                FireOrb();
+            }
+            fire++;
+
         }
     }
 
@@ -69,12 +81,16 @@ public class Player : MonoBehaviour
     /// </summary>
     private void FireOrb()
     {
-        // Create new orb 
-        var orb = Instantiate(OrbPrefab, transform.position + transform.right, Quaternion.identity);
+        // TODO
+        Vector3 playerDirection = transform.right.normalized;
+        Vector3 playerPosition = transform.position;
+        Vector3 orbPosition = playerPosition + playerDirection;
+        GameObject orb = Instantiate(OrbPrefab, orbPosition, Quaternion.identity);
+        Rigidbody2D orbBody = orb.GetComponent<Rigidbody2D>();
         
-        // Set velocity of orb
-        var orbRB = orb.GetComponent<Rigidbody2D>();
-        orbRB.linearVelocity = OrbVelocity * transform.right;
+        Vector2 force = new Vector2(playerDirection.x, playerDirection.y);
+        orbBody.linearVelocity = force * OrbVelocity;
+        
     }
 
     /// <summary>
@@ -85,16 +101,13 @@ public class Player : MonoBehaviour
     /// </summary>
     void Manoeuvre()
     {
-        // Move around
-        float horizontalAxis = Input.GetAxis("Horizontal");
-        float verticalAxis = Input.GetAxis("Vertical");
-        var direction = new Vector2(horizontalAxis, verticalAxis);
-        direction *= EnginePower;
-        RB.AddForce(direction);
-        
-        // Aim
-        float rotateAmount = Input.GetAxis("Rotate") * RotateSpeed;
-        RB.angularVelocity = rotateAmount;
+        // TODO
+        Vector2 input = new Vector2(Input.GetAxis("Horizontal"), Input.GetAxis("Vertical"));
+        input = input * EnginePower;
+        RigidBody.AddForce(input);
+        var inputRotate =  Input.GetAxis("Rotate");
+        inputRotate = inputRotate * RotateSpeed;
+        RigidBody.angularVelocity = inputRotate;
     }
 
     /// <summary>

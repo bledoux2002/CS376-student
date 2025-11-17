@@ -32,6 +32,11 @@ public class Enemy : MonoBehaviour
     public float CoolDownTime = 1;
 
     /// <summary>
+    /// Track when next shot should be taken
+    /// </summary>
+    public float shotTime;
+    
+    /// <summary>
     /// Prefab for the orb it fires
     /// </summary>
     public GameObject OrbPrefab;
@@ -66,6 +71,7 @@ public class Enemy : MonoBehaviour
     {
         player = FindFirstObjectByType<Player>().transform;
         rigidBody = GetComponent<Rigidbody2D>();
+        shotTime = Time.time;
     }
 
     /// <summary>
@@ -74,11 +80,12 @@ public class Enemy : MonoBehaviour
     // ReSharper disable once UnusedMember.Local
     void Update()
     {
-        // Call Fire() after cooldown
-        if (Time.time >= CoolDownTime)
+        // TODO
+        float time = Time.time;
+        if (time > shotTime)
         {
-            CoolDownTime = Time.time + 1.0f;
             Fire();
+            shotTime = shotTime + CoolDownTime;
         }
     }
 
@@ -88,11 +95,17 @@ public class Enemy : MonoBehaviour
     /// </summary>
     private void Fire()
     {
-        // Shoot orb at player
-        var orb = Instantiate(OrbPrefab, transform.position + new Vector3(HeadingToPlayer.x, HeadingToPlayer.y, 0), Quaternion.identity);
-        var orbRB = orb.GetComponent<Rigidbody2D>();
-        orbRB.mass = OrbMass;
-        orbRB.linearVelocity = OrbVelocity * HeadingToPlayer;
+        // TODO
+        Vector3 towardPlayer = HeadingToPlayer.normalized;
+        Vector3 enemyPos = transform.position;
+        Vector3 firePos = enemyPos  + towardPlayer;
+        
+        GameObject orb = Instantiate(OrbPrefab, firePos, Quaternion.identity);
+        Rigidbody2D orbBody = orb.GetComponent<Rigidbody2D>();
+        
+        Vector2 force = new Vector2(towardPlayer.x, towardPlayer.y);
+        orbBody.linearVelocity = force * OrbVelocity;
+        orbBody.mass = OrbMass;
     }
 
     /// <summary>

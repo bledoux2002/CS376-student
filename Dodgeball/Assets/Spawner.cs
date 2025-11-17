@@ -16,25 +16,30 @@ public class Spawner : MonoBehaviour
     public float SpawnInterval = 20;
 
     /// <summary>
+    /// Time of next spawn
+    /// </summary>
+    public float spawnTime = 0;
+
+    /// <summary>
     /// How many units of free space to try to find around the spawned object
     /// </summary>
     public float FreeRadius = 10;
 
-    // Time at which to spawn enemy
-    private float SpawnTimer = 0;
-    
+    /// <summary>
+    /// 
+    /// </summary>
+
     /// <summary>
     /// Check if we need to spawn and if so, do so.
     /// </summary>
     // ReSharper disable once UnusedMember.Local
     void Update()
     {
-        // Instantiate enemy at random point
-        if (Time.time >= SpawnTimer)
+        float time = Time.time;
+        if (time > spawnTime)
         {
-            SpawnTimer += 10.0f;
-            var spawnPoint = SpawnUtilities.RandomFreePoint(FreeRadius);
-            Instantiate(Prefab, spawnPoint, Quaternion.identity);
+            Instantiate(Prefab, SpawnUtilities.RandomFreePoint(FreeRadius), Quaternion.identity);
+            spawnTime = spawnTime + SpawnInterval;
         }
     }
 }
