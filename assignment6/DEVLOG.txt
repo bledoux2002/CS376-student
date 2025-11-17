@@ -1,0 +1,120 @@
+ASSIGNMENT 6 DEVELOPMENT LOG: Fishing Game
+
+11/3/2025
+- Aesthetic goals
+	1. The player should get more invested reaction-wise as the game progresses.
+		- Success: the player tenses up and/or heart rate increases
+		- Failure: the player is looking away from the screen during gameplay
+	2. The player should not require mental preparation to play the game
+		- Success: the player plays the game as a break from something more
+		  mentally intensive
+		- Failure: the player gets overly frustrated when they lose
+- Core loop
+	- The core mechanics will involve guiding a fishing line down into water past
+	  fish using directional keys, and a burst mechanic that allows them to power
+	  through fish in the way.
+	- The core loop is as follows:
+		1. Cast fishing line
+		2. Avoid fish and mines
+		3. Reel in line when hook collides with and grabs fish
+		4. Catch more fish as line is reeled in
+		5. Gain money based on quantity and type of fish caught
+		6. Buy bursts with money gained from caught fish
+
+		3. (ALTERNATE) Mine explodes when hook collides with it
+		4. Player cannot collect fish as line is reeled in
+	- The core loop serves the aesthetic goals by encouraging more investment from
+	  the player the deeper they go without hitting anything. As they get further
+	  they have more potential money to lose by missing out on all of the fish
+	  above them if they hit a landmine. Since the game is not particularly
+	  strategic and only has a few simple controls, relying primarily on reactions,
+	  it isn't mentally overbearing.
+
+11/3/2025
+- Initialize project directory and populated with default 2D game from Unity
+
+11/7/2025
+- Created basic UI and game objects to turn into Prefabs, including the hook, mine, and
+  fish with sizes tiny, small, medium, large, giant, and "The Fish" (the biggest, most
+  valuable fish).
+- Colliders (triggers, not using rigidbody) are set to be slightly smaller than the
+  sprites in order to give a sense of leniency ("woah that was a close call, i grazed
+  that mine").
+
+11/8/2025
+- Added horizontal movement to fish with range of random speeds, horizontal and vertical
+  movement to hook, and basic game logic for collisions.
+- Player can move hook horizontally, begin descending, and can catch a fish, which begins
+  reeling in and catching other fish on the way up.
+- If hook collides with sea mine it reels in without collecting any fish on the way up.
+- Player can purchase bursts before casting their line, and use bursts once it has been
+  cast. These make the hook sink faster, and pass through fish without catching them so
+  the player can make it further down to catch more fish on the way up, but as a tradeoff
+  it kills any fish it passes through.
+- Added but have not implemented Spawner for fish and mine prefabs.
+	- Fish are now set up as prefabs so they can be spawned.
+
+11/9/2025
+- Added a Track object to move the camera and hook down infinitely.
+
+11/13/2025
+- Removed track, hook script now keeps track of camera and will translate camera's Y
+  coordinate to match hook when hook's Y coordinate is negative, gives effect of hook
+  moving down until middle of screen, then everything moving down.
+- Depth changes color of water, darker as you go deeper.
+- Added a "Depth Record" to further incentivize longer games, as opposed to playing a
+  bunch of short games in quick succession to make money for bursts.
+
+11/14/2025
+- Adding Toon Explosion from Angry Blox assignment to mines.
+- Implemented Spawner script to spawn a random fish or mine at a random interval below
+  the previous spawn as the depth increases.
+	- Having issues with serializing public fields, Dictionary and Tuple are more
+	  complex to serialize than I care for, and the particular version of the Unity
+	  editor for the class (6000.2.6f1) has a visual bug when serializing Lists and
+	  Arrays. Luckily I only need to serialize 7 prefabs and 7 floats so I just made
+	  them individual.
+	- Fixed a bug where many fish would spawn vertically oritented and all in the
+	  middle of the screen, had negative and positive values mixed up in a
+	  coordinate check and some incorrect logic for Instantiation of prefabs.
+- Added sounds to exploding mines, catching fish, bursting, and a splash from reaching
+  the top after each run.
+- Had to swithc to new Input System since face buttons on XBox and Dualsense controllers
+  are recorded differently.
+- Game is pretty much completed with the implementation of the Spawner, luckily the
+  default values I set for spawn rates and fish values seem to make a good challenge
+  without being too difficult.
+- Considered changing bursts from individual actions to a continuous one, with fuel
+  instead of a set number of bursts, but decided against it as it currently has a tradeoff
+  when using it.
+- Considered not being able to hit mines during bursts, and also being able to hit mines
+  during ascent, but decided bursts would be too powerful, and losing all your fish on
+  the quick ascent isn't fun or fair to the player.
+
+
+POSTMORTEM
+- I originally set out to re-create a mobile game called "Ninja Fishing" albeit with
+  watered-down mechanics. I wanted players to feel locked-in on a simple, somewhat
+  mindless game.
+- My goals did not really change over the course of the project, I picked reasonable,
+  reachable goals that I knew I would achieve by emulating that mobile game.
+- I think I accomplished everything, although I could have made the game more intense
+  with tougher spawn rates and more lose conditions, or even a 0.001% golden chest
+  full of money.
+- Most things went right, I took my time to plan out how I would implement certain aspects
+  such as the camera and background following the hook down and up, the game logic of
+  when certain actions could be done using an Enum for the hooks status (falling, rising, etc).
+  It was nice that the random values I chose for most things (spawn rates, fish values, speed
+  ranges, etc.) worked so well and I didn't have to struggle with balancing.
+- The biggest issue that wasn't a bug from small coding errors was the Input Manager. I tried
+  to use the legacy version that I am used to and we have been using, however the inputs
+  for Xbox and Playstation controllers differ slightly (face buttons on PS are rotated 90
+  degrees compared to Xbox). It was easier to learn and use the new "Input System" package.
+  There was also an issue with Lists and Arrays not displaying properly when serialized in
+  the editor. I looked into it and it is a bug with this specific version of Unity. I was
+  able to substitute them easily in my code since I only needed 7 values (6 different fish
+  and the mine).
+- I wish I knew the Input Manager was not going to work so I could have more time to learn
+  the new Input System.
+- I learned how to use the new Input System, and I was able to apply some techniques from
+  Object Oriented I never knew about before (namely Enum).

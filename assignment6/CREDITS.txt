@@ -1,0 +1,7 @@
+CREDITS
+
+Toon Explosion v1.0: Taken from Angry Blox assignment, could not find a credit in the assignment folder
+splash.wav: https://freesound.org/s/9508/
+catch.wav: https://freesound.org/s/186746/
+burst.wav: https://freesound.org/s/572025/
+explosion.wav: https://freesound.org/s/478278/

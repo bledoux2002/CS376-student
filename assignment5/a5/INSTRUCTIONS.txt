@@ -1,0 +1,31 @@
+Assignment 5
+Capsule Soccer
+
+DESCRIPTION
+Same idea as the old Flash game Big Head Football (https://www.friv.com/z/games/bigheadfootball/game.html).
+2 players trying to push the ball into the other's net. You can move horizontally, jump, and kick the ball.
+The game has a time limit of 2 minutes, and can end in a tie. There is no score limit.
+
+OBJECTS
+Scoreboard: Top center of screen. Will count down from 2 minutes upon (re)starting the game. Scores will increment by 1 depending on which goal the ball enterred.
+Ball: Center of screen. Subject to collisions, gravity, and being kicked. Will bounce around but slowly come to a stop if no acted on, resets to center of screen with no movement/rotation when a player scores or game is restarted. Cannot be kicked off screen.
+Players: Blue/Red capsules on either side of screen. Subject to collisions and gravity. Will remain on ground moving horizontally based on player input, can jump into air. Resets to starting positions with no movement when player scores or game is restarted. Cannot rotate or move fully offscreen.
+Goals: Collection of simple shapes on either side of screen. Cannot move, horizontal bars on top provide collision, while invisible boxes inside serve as triggers for scoring a goal. Vertical bars and net meshes have no collision. Will play a "cheering" sound effect when a goal is scored. Cannot move in any way.
+Ground: Green bar along bottom of screen. Prevents players and ball from dropping off screen. Cannot move in any way.
+
+CONTROLS
+The control scheme uses one keyboard for both players.
+Player 1 (BLUE): A/D horizontal, W/S vertical, C kick
+Player 2 (RED): Left/Right arrows horizontal, Up/Down arrows vertical, M kick
+Kicking applied a one-time force to the ball based on the directional keys, so a player can kick the ball horizontally and/or vertically.
+NOTE: When a player jumps (W/Up arrow), they cannot prematurely bring themselves down, or continue to jump until they've landed.
+	The only use of the down keys (S/Down arrow) is to apply downward force when kicking the ball.
+
+At any point the Escape key can be pressed to restart the match.
+
+SCORING
+Either player can score by putting the ball in the other player's net. It does not matter who touched it last, if at all, as long as the ball fully crosses the vertical goal post.
+
+END GAME
+The game ends once the timer reaches 0:00. The winner is determined by who scored more goals, and can result in a tie if the score is equal at fulltime.
+The scoreboard will stop being updated until the match is restarted, but the players and ball can continue to move around.

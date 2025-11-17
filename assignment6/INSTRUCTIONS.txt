@@ -1,0 +1,45 @@
+INSTRUCTIONS
+
+Objects
+- Hook (Gray diamond)
+- Fish (Colorful capsules)
+- Mines (Black circles)
+
+Object Behaviors
+- Hook: The hook is effectively the player, you control its horizontal movement
+  to avoid colliding with mines or fish for as long as you can. Vertical movement
+  is automatic and constant once a run is started (the camera will match the hook's
+  Y coordinate once the game starts). When the hook collides with a fish, it will
+  begin rising vertically and catching any other fish it collides with. If the hook
+  collides with a mine, it will begin rising without the ability to catch any fish.
+  You can "burst" which temporarily speeds up movement, and will kill any fish you
+  collide with, extending the current run but removing that fish from the game, 
+  so you cannot catch it later. Colliding with a mine during a burst still ends
+  the current run. Once the hook reached the top it will play a splashing sound
+- Fish: Fish move horizontally across the screen, reversing direction once the edge
+  is hit. They are spawned in at a range of random intervals, with a range of random
+  speeds. Larger fish appear behind smaller fish so you can always see every fish on
+  screen. When a fish is caught, it will attatch to the hook and stay attatched until
+  the hook reaches the top of the screen.
+- Mines: Mines stay in one place (although appear to move vertically due to the
+  camera movement with the hook). They will play an explosion sound and animation
+  when they collide with the hook ONLY during descent, the hook does not collide
+  with mines while rising, so any caught fish are safe.
+
+Controls
+- Move: Horizontal only, A/D keys, Left/Right arrow keys, Left joystick (Xbox/Dualshock/Dualsense)
+- Start descent: Space Bar, A button (Xbox Controller), Cross button (Dualshock/Dualsense)
+- Burst: Space Bar, A button (Xbox Controller), Cross button (Dualshock/Dualsense)
+- Buy bursts ($500): B key, B button (Xbox Controller), Circle button (Dualshock/Dualsense)
+
+Scoring
+- The player "scores" by catching fish. The value of each fish caught is added to the
+  "Fish Bucks" total once the hook reaches the top.
+
+Goals and Win/Lose Conditions
+- The goal of the game is survival. Try to go as deep as possible in order to set a
+  personal record and catch as many fish on the way back up as possible.
+- Not so much a win condition, more a "didn't lose" condition, which is not hitting
+  a mine on the way down.
+- Lose condition is hitting a mine, losing out on all fish above as the hook resets,
+  and potentially wasting bursts used to reach the current depth.
