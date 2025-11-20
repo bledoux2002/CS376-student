@@ -87,6 +87,46 @@ public class PlayerControl : MonoBehaviour {
         playerRB.linearVelocity = transform.forward*3;
     }
 
+    private void FixedUpdate()
+    {
+        // Steering
+        float joystickRoll = Input.GetAxis("Horizontal") * RollRange;
+        float joystickPitch = Input.GetAxis("Vertical") * PitchRange;
+        roll = Mathf.Lerp(roll, joystickRoll, 0.01f);
+        pitch = Mathf.Lerp(pitch, joystickPitch, 0.01f);
+        yaw += -roll * RotationalSpeed * Time.deltaTime;
+        
+        Quaternion rotation = Quaternion.Euler(pitch, yaw, roll);
+        
+        playerRB.MoveRotation(rotation);
+        
+        // Thrust
+        float joystickThrust = Mathf.Max(0f, -Input.GetAxis("Thrust"));
+        thrust = joystickThrust * MaximumThrust;
+        playerRB.AddForce(transform.forward * thrust);
+        
+        // Aerodynamics
+        // Lift
+        Vector3 xLocal, yLocal, zLocal, vRelative;
+        xLocal = transform.right;
+        yLocal = transform.up;
+        zLocal = transform.forward;
+        vRelative = -playerRB.linearVelocity;
+        float vForward = Vector3.Dot(vRelative, zLocal);
+        
+        Vector3 lift = LiftCoefficient * vForward * vForward * yLocal;
+        playerRB.AddForce(lift);
+        
+        // Drag
+        Vector3 forwardDrag, verticalDrag;
+        forwardDrag = Mathf.Sign(vForward) * ForwardDragCoefficient * vForward * vForward * zLocal;
+        float vUp = Vector3.Dot(vRelative, yLocal); 
+        verticalDrag = Mathf.Sign(vUp) * VerticalDragCoefficient * vUp * vUp * yLocal;
+        
+        playerRB.AddForce(forwardDrag);
+        playerRB.AddForce(verticalDrag);
+    }
+
     /// <summary>
     /// Show game-over display
     /// </summary>
