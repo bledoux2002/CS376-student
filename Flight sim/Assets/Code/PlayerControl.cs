@@ -112,6 +112,13 @@ public class PlayerControl : MonoBehaviour {
         yLocal = transform.up;
         zLocal = transform.forward;
         vRelative = -playerRB.linearVelocity;
+        // Updrafts
+        int layerMask = LayerMask.GetMask("Updrafts");
+        Collider[] colliders = Physics.OverlapSphere(transform.position, 1f, layerMask);
+        foreach(Collider col in colliders)
+        {
+            vRelative += col.GetComponent<Updraft>().WindVelocity;
+        }
         float vForward = Vector3.Dot(vRelative, zLocal);
         
         Vector3 lift = LiftCoefficient * vForward * vForward * yLocal;
