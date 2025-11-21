@@ -152,4 +152,17 @@ public class PlayerControl : MonoBehaviour {
             transform.position.y,
             thrust);
     }
+
+    private void OnCollisionEnter(Collision collision)
+    {
+        GameObject other = collision.gameObject;
+        if (other.GetComponent<LandingPlatform>() && playerRB.linearVelocity.z < other.GetComponent<LandingPlatform>().MaxLandingSpeed)
+        {
+            OnGameOver(true);
+        }
+        else
+        {
+            OnGameOver(false);
+        }
+    }
 }
